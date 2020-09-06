@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './style.css';
 import initialPostData from "../data/postdata.json";
 
-const initialFormState = { id: '', name: '', description: '', email: '' }
+const initialFormState = { id: '', name: '', description: '', email: '', replys: null }
 
 function HomePage() {
   const [Posts, setPost] = useState(initialPostData);
@@ -14,10 +14,19 @@ function HomePage() {
 
   function createPost(){
       var listPosts = Posts;
+      var min = 1;
+      var max = 100;
+      var rand =  min + (Math.random() * (max-min));
+
+      formData["id"] = rand.toString();
       if(replier){
         listPosts = Posts.filter((data)=>{
             if(data.id.includes(replier.id)){
-                data.replys.push(formData);
+                if(!data.replys){
+                    data["replys"] = [formData];
+                }else{
+                    data.replys.push(formData);
+                }
                 return data;
             }else{
                 return data
@@ -28,8 +37,8 @@ function HomePage() {
       }
       setFormData(initialFormState);
       setPost(listPosts);
+      loadList();
       setStateModal("none");
-      findPost();
       setReplier(null);
   }
 
@@ -38,6 +47,10 @@ function HomePage() {
         var keyword = event.target.value;
         setFilter(keyword);
     }
+    loadList();
+  }
+
+  function loadList(){
     var listPost = Posts.filter((data)=>{
         if(filterKey == null)
             return data
@@ -47,14 +60,22 @@ function HomePage() {
             return null
         }
       });
-    //if(listPost)
-        setFiltredPost(listPost);
-    //else
-      //setFiltredPost([{description:'NOT FOUND'}])
+      setFiltredPost(listPost);
   }
 
   function deletePost(postId){
-    //console.log(postId);
+    console.log(postId);
+    var listPosts = Posts;
+    listPosts = Posts.filter((data)=>{
+        if(data.id.includes(postId)){
+            return null;
+        }else {
+            return data
+        }
+    });
+    console.log(Posts.length + " - " + listPosts.length)
+    setPost(listPosts);
+    loadList();
   }
 
   function replyPost(repliedPost){
@@ -70,10 +91,18 @@ function HomePage() {
                 <div className="post-author" >
                     Author: {post.name} email: {post.email}
                 </div>
-                {(!repliedId) &&
-                    <button onClick={() => {replyPost(post)}} >Reply</button>
-                }
-                <button onClick={deletePost(post.id)} >Delete</button>
+                <span 
+                    onClick={() => {
+                        replyPost(post.id)
+                    }}>
+                    &times;
+                </span>
+                <span 
+                    onClick={() => {
+                        if (window.confirm('Are you sure you wish to delete this item?')) { deletePost(post.id) }
+                    }}>
+                    &times;D
+                </span>
                 
                 {(post.replys) &&
                     (<div className="post-reply" 
@@ -98,7 +127,10 @@ function HomePage() {
               <div className="modal-content">
                 <span 
                   className="close" 
-                  onClick={() => {setStateModal("none");}}>
+                  onClick={() => {
+                      setStateModal("none");
+                      setReplier(null);
+                  }}>
                     &times;
                 </span>
                 <input
@@ -151,10 +183,13 @@ function HomePage() {
             </button>
             <div className="post-container"
                 style={{marginBottom: 30, margin: 5, maxHeight:'500px', minHeight: '300px', overflowY: 'scroll' }}>
-                <label>Inspiring Quotes
-                    {
-                        FiltredPost.map(post => showPost(post))
-                    }
+                <label style={ { width:'100%'}}>Inspiring Quotes
+                    <React.Fragment>
+                        {
+                            FiltredPost.map(post => showPost(post))
+                        }
+                    </React.Fragment>
+                    
                 </label>
             </div>
         </div>
