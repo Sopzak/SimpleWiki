@@ -38,15 +38,15 @@ function HomePage() {
     setFiltredPost(listPost);
   }
 
-  function deletePost(post,postId){
+  function deletePost(post,repliedId){
     //console.log(postId);
   }
 
-  function replayPost(post,postId){
+  function replyPost(post,repliedId){
     //console.log(postId);
   }
 
-  function showPost(post, postId){
+  function showPost(post, repliedId){
       return (
         <div key={post.id}>
             <div style={{margin:5}} className="post">
@@ -54,15 +54,15 @@ function HomePage() {
                 <div className="post-author" >
                     Author: {post.name} email: {post.email}
                 </div>
-                <button onClick={replayPost(post, postId)} >Replay</button>
-                <button onClick={deletePost(post, postId)} >Delete</button>
+                <button onClick={replyPost(post, repliedId)} >Replay</button>
+                <button onClick={deletePost(post, repliedId)} >Delete</button>
                 
-                {(post.replays) &&
-                    (<div className="post-replay" 
+                {(post.replys) &&
+                    (<div className="post-reply" 
                         style={{marginBottom: 30, margin:10, maxHeight:'300px', minHeight: '100px', overflowY: 'scroll' }}>
-                        <label >REPLAYS
+                        <label >Replied
                         {
-                            post.replays.map(replay => showPost(replay, post.id))
+                            post.replys.map(reply => showPost(reply, post.id))
                         }
                         </label>
                     </div>
