@@ -6,19 +6,20 @@ const initialFormState = { id: '', name: '', description: '', email: '', replys:
 
 function HomePage() {
   const [Posts, setPost] = useState(initialPostData);
-  const [FiltredPost, setFiltredPost] = useState(Posts);
   const [formData, setFormData] = useState(initialFormState);
   const [showModal, setStateModal] = useState("none");
   const [filterKey, setFilter] = useState(null);
   const [replier, setReplier] = useState(null);
 
+
+  function newId(){
+    return (Math.random() * (100));
+  }
+
   function createPost(){
       var listPosts = Posts;
-      var min = 1;
-      var max = 100;
-      var rand =  min + (Math.random() * (max-min));
 
-      formData["id"] = rand.toString();
+      formData["id"] = newId().toString();
       if(replier){
         listPosts = Posts.filter((data)=>{
             if(data.id.includes(replier.id)){
@@ -37,7 +38,6 @@ function HomePage() {
       }
       setFormData(initialFormState);
       setPost(listPosts);
-      loadList();
       setStateModal("none");
       setReplier(null);
   }
@@ -47,41 +47,36 @@ function HomePage() {
         var keyword = event.target.value;
         setFilter(keyword);
     }
-    loadList();
-  }
-
-  function loadList(){
-    var listPost = Posts.filter((data)=>{
-        if(filterKey == null)
-            return data
-        else if(data.name.includes(filterKey) || data.email.includes(filterKey) || data.description.includes(filterKey)){
-            return data
-        }else{
-            return null
-        }
-      });
-      setFiltredPost(listPost);
   }
 
   function deletePost(postId){
-    console.log(postId);
     var listPosts = Posts;
     listPosts = Posts.filter((data)=>{
         if(data.id.includes(postId)){
             return null;
         }else {
-            return data
+            if(data.replys){
+                var replys = data.replys.filter((reply)=>{
+                    if(reply.id.includes(postId)){
+                        return null;
+                    }else{
+                        return reply;
+                    }
+                });
+                data.replys = replys;
+                return data;
+            }else{
+                return data;
+            }
         }
     });
-    console.log(Posts.length + " - " + listPosts.length)
     setPost(listPosts);
-    loadList();
   }
 
-  function replyPost(repliedPost){
-    setReplier(repliedPost);
-    setStateModal('block');
-  }
+    function replyPost(repliedPost){
+        setReplier(repliedPost);
+        setStateModal('block');
+    }
 
   function showPost(post, repliedId){
       return (
@@ -91,17 +86,20 @@ function HomePage() {
                 <div className="post-author" >
                     Author: {post.name} email: {post.email}
                 </div>
-                <span 
-                    onClick={() => {
-                        replyPost(post.id)
-                    }}>
-                    &times;
-                </span>
+                {(!repliedId) && (
+                    <span 
+                        onClick={() => {
+                            replyPost(post)
+                        }}>
+                        &larr;Reply
+                    </span>
+                )}
+                &nbsp;
                 <span 
                     onClick={() => {
                         if (window.confirm('Are you sure you wish to delete this item?')) { deletePost(post.id) }
                     }}>
-                    &times;D
+                    &times;Delete
                 </span>
                 
                 {(post.replys) &&
@@ -186,10 +184,17 @@ function HomePage() {
                 <label style={ { width:'100%'}}>Inspiring Quotes
                     <React.Fragment>
                         {
-                            FiltredPost.map(post => showPost(post))
+                            Posts.filter((data)=>{
+                                if(filterKey == null)
+                                    return data
+                                else if(data.name.includes(filterKey) || data.email.includes(filterKey) || data.description.includes(filterKey)){
+                                    return data
+                                }else{
+                                    return null
+                                }
+                              }).map(post => showPost(post))
                         }
                     </React.Fragment>
-                    
                 </label>
             </div>
         </div>
