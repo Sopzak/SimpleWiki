@@ -1,19 +1,39 @@
-.post-container {
-    border: 1px solid #330d0de1;
-    border-radius: 4px;
-    width: 100hh;
-    min-height: 75px;
-    background-color:#522066;
-    margin: 10px;
-    padding: 10px
-  }
-
   .home-page {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    margin: 0 auto;
+    margin: 10px auto;
+  }
+  
+  .post-container {
+    border: 1px solid #330d0de1;
+    border-radius: 4px;
+    min-height: 75px;
+    background-color:#522066;
+    margin: 10px;
+    padding: 10px;
+    max-height: '500px';
+    overflow-y: 'scroll';
+  }
+
+  .post{
+    border: 1px solid #330d0de1;
+    border-radius: 4px;
+    min-height: 75px;
+    margin: 10px;
+    padding: 10px;
+    max-height: '500px';
+    overflow-y: 'scroll';
+  }
+
+  .post-author {
+    justify-content: left;
+    font-size: calc(4px + 2vmin);
+  }
+
+  .post-replay {
+    background-color:#632b79;
   }
 
   .comment-text-area {

@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import './style.css';
-import initialPostData from "../data/postdata.json"
+import initialPostData from "../data/postdata.json";
 
 const initialFormState = { id: '', name: '', description: '', email: '' }
 
 function HomePage() {
   const [Posts, setPost] = useState(initialPostData);
+  const [FiltredPost, setFiltredPost] = useState(Posts);
   const [formData, setFormData] = useState(initialFormState);
   const [showModal, setStateModal] = useState("none");
+  const [filterKey, setFilter] = useState(null);
 
   function createPost(){
       var listPosts = Posts;
@@ -15,32 +17,54 @@ function HomePage() {
       setFormData(initialFormState);
       setPost(listPosts);
       setStateModal("none");
+      findPost();
   }
 
-  function deletePost(postId){
-    console.log(postId);
+  function findPost(event) {
+    if(event){
+        var keyword = event.target.value;
+        setFilter(keyword);
+    }
+    var listPost = Posts.filter((data)=>{
+        if(filterKey == null)
+            return data
+        else if(data.name.includes(filterKey) || data.email.includes(filterKey) || data.description.includes(filterKey)){
+            return data
+        }else{
+            return null
+        }
+      });
+    if(listPost)
+    setFiltredPost(listPost);
   }
 
-  function replayPost(postId){
-    console.log(postId);
+  function deletePost(post,postId){
+    //console.log(postId);
   }
 
-  function showPost(post){
+  function replayPost(post,postId){
+    //console.log(postId);
+  }
+
+  function showPost(post, postId){
       return (
         <div key={post.id}>
-            <div className="post-container">
-                <p>{post.description}</p>
-                <div >
-                    Author: {post.name} {post.email}
+            <div style={{margin:5}} className="post">
+                <p>&quot;{post.description}&quot;</p>
+                <div className="post-author" >
+                    Author: {post.name} email: {post.email}
                 </div>
-                <button onClick={replayPost(post.id)}>Replay</button>
-                <button onClick={deletePost(post.id)} >Delete</button>
+                <button onClick={replayPost(post, postId)} >Replay</button>
+                <button onClick={deletePost(post, postId)} >Delete</button>
                 
                 {(post.replays) &&
-                    (<div style={{marginBottom: 30, maxHeight:'300px', minHeight: '100px', overflowY: 'scroll' }}>
+                    (<div className="post-replay" 
+                        style={{marginBottom: 30, margin:10, maxHeight:'300px', minHeight: '100px', overflowY: 'scroll' }}>
+                        <label >REPLAYS
                         {
-                            post.replays.map(replay => showPost(replay))
+                            post.replays.map(replay => showPost(replay, post.id))
                         }
+                        </label>
                     </div>
                     )
                 }
@@ -90,15 +114,27 @@ function HomePage() {
                         Create Post
                 </button>
               </div>
-            </div>
+            </div>      
+            <input type="text" placeholder="Enter keyword to be searched" 
+                style={{      
+                    border:'solid',
+                    borderRadius:'10px',
+                    position:'relative',
+                    height:'3vh',
+                    left: '5vh',
+                    float: 'left',
+                    width:'50%',}} 
+                    onChange={(e)=> findPost(e)} 
+                    onBlur={(e)=> findPost(e)} />
             <button 
                 aria-label={"Add Post"}
                 onClick={() => {setStateModal("block");}}>
                     Add Post
             </button>
-            <div style={{marginBottom: 30, maxHeight:'500px', minHeight: '300px', overflowY: 'scroll' }}>
+            <div className="post-container"
+                style={{marginBottom: 30, margin: 5, maxHeight:'500px', minHeight: '300px', overflowY: 'scroll' }}>
                 {
-                    Posts.map(post => showPost(post))
+                    FiltredPost.map(post => showPost(post))
                 }
             </div>
         </div>
