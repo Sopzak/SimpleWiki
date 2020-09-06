@@ -9,8 +9,7 @@
                 "id" : "qw7kjFF5asd", 
                 "name": "Winston Churchill",
                 "email": "winston.c@uk.com",
-                "description": "The Pessimist Sees Difficulty In Every Opportunity. The Optimist Sees Opportunity In Every Difficulty.",
-                "replays": []
+                "description": "The Pessimist Sees Difficulty In Every Opportunity. The Optimist Sees Opportunity In Every Difficulty."
             },
             {
                 "id" : "jscG456hd9i", 
@@ -22,8 +21,7 @@
                         "id" : "askhda458jj",
                         "name":"Jesiel Sopzak Campos",
                         "email": "je.sopzak@hotmail.com",
-                        "description" : "Thank you.",
-                        "replays": []
+                        "description" : "Thank you."
                     }
                 ]
             }
@@ -33,21 +31,34 @@
         "id" : "wdsf7fKhkl2", 
         "name": "Winston Churchill",
         "email": "winston.c@uk.com",
-        "description": "The Pessimist Sees Difficulty In Every Opportunity. The Optimist Sees Opportunity In Every Difficulty.",
-        "replays": []
+        "description": "The Pessimist Sees Difficulty In Every Opportunity. The Optimist Sees Opportunity In Every Difficulty."
     },
     {
         "id" : "sdHFk743jbk", 
         "name": "Og Mandino",
         "email": "mandino@gmail.com",
         "description": "Failure Will Never Overtake Me If My Determination To Succeed Is Strong Enough.",
-        "replays": []
+        "replays": [
+            {
+                "id" : "asd7fK4hhl2", 
+                "name": "Winston Churchill",
+                "email": "winston.c@uk.com",
+                "description": "Up."
+            }
+        ]
     },
     {
         "id" : "ww324hgJ3hd", 
         "name": "Maya Angelou",
         "email": "maya.angelou@gmail.com",
         "description": "We May Encounter Many Defeats But We Must Not Be Defeated.",
-        "replays": []
+        "replays": [
+            {
+                "id" : "asd7fK4hhl2", 
+                "name": "Winston Churchill",
+                "email": "winston.c@uk.com",
+                "description": "Exactly."
+            }
+        ]
     }
 ]

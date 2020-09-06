@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './style.css';
 import initialPostData from "../data/postdata.json"
 
-const initialFormState = { id: '', name: '', description: '', email: '', replays: [] }
+const initialFormState = { id: '', name: '', description: '', email: '' }
 
 function HomePage() {
   const [Posts, setPost] = useState(initialPostData);
@@ -14,6 +14,7 @@ function HomePage() {
       listPosts.push(formData);
       setFormData(initialFormState);
       setPost(listPosts);
+      setStateModal("none");
   }
 
   function deletePost(postId){
@@ -34,6 +35,15 @@ function HomePage() {
                 </div>
                 <button onClick={replayPost(post.id)}>Replay</button>
                 <button onClick={deletePost(post.id)} >Delete</button>
+                
+                {(post.replays) &&
+                    (<div style={{marginBottom: 30, maxHeight:'300px', minHeight: '100px', overflowY: 'scroll' }}>
+                        {
+                            post.replays.map(replay => showPost(replay))
+                        }
+                    </div>
+                    )
+                }
             </div>
         </div>
     )
