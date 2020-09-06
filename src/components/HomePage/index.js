@@ -10,14 +10,27 @@ function HomePage() {
   const [formData, setFormData] = useState(initialFormState);
   const [showModal, setStateModal] = useState("none");
   const [filterKey, setFilter] = useState(null);
+  const [replier, setReplier] = useState(null);
 
   function createPost(){
       var listPosts = Posts;
-      listPosts.push(formData);
+      if(replier){
+        listPosts = Posts.filter((data)=>{
+            if(data.id.includes(replier.id)){
+                data.replys.push(formData);
+                return data;
+            }else{
+                return data
+            }
+          });
+      }else{
+        listPosts.push(formData);
+      }
       setFormData(initialFormState);
       setPost(listPosts);
       setStateModal("none");
       findPost();
+      setReplier(null);
   }
 
   function findPost(event) {
@@ -34,16 +47,19 @@ function HomePage() {
             return null
         }
       });
-    if(listPost)
-    setFiltredPost(listPost);
+    //if(listPost)
+        setFiltredPost(listPost);
+    //else
+      //setFiltredPost([{description:'NOT FOUND'}])
   }
 
-  function deletePost(post,repliedId){
+  function deletePost(postId){
     //console.log(postId);
   }
 
-  function replyPost(post,repliedId){
-    //console.log(postId);
+  function replyPost(repliedPost){
+    setReplier(repliedPost);
+    setStateModal('block');
   }
 
   function showPost(post, repliedId){
@@ -54,8 +70,10 @@ function HomePage() {
                 <div className="post-author" >
                     Author: {post.name} email: {post.email}
                 </div>
-                <button onClick={replyPost(post, repliedId)} >Replay</button>
-                <button onClick={deletePost(post, repliedId)} >Delete</button>
+                {(!repliedId) &&
+                    <button onClick={() => {replyPost(post)}} >Reply</button>
+                }
+                <button onClick={deletePost(post.id)} >Delete</button>
                 
                 {(post.replys) &&
                     (<div className="post-reply" 
@@ -133,9 +151,11 @@ function HomePage() {
             </button>
             <div className="post-container"
                 style={{marginBottom: 30, margin: 5, maxHeight:'500px', minHeight: '300px', overflowY: 'scroll' }}>
-                {
-                    FiltredPost.map(post => showPost(post))
-                }
+                <label>Inspiring Quotes
+                    {
+                        FiltredPost.map(post => showPost(post))
+                    }
+                </label>
             </div>
         </div>
     </div>

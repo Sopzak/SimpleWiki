@@ -15,15 +15,7 @@
                 "id" : "jscG456hd9i", 
                 "name": "Andrew Carnegie",
                 "email": "a.carnegie75@yahoo.com",
-                "description": "The average person puts only 25% of his energy into his work. The world takes off its hat to those who put in more than 50% of their capacity, and stands on its head for those few and far between souls who devote 100%.",
-                "replys": [
-                    {
-                        "id" : "askhda458jj",
-                        "name":"Jesiel Sopzak Campos",
-                        "email": "je.sopzak@hotmail.com",
-                        "description" : "Thank you."
-                    }
-                ]
+                "description": "The average person puts only 25% of his energy into his work. The world takes off its hat to those who put in more than 50% of their capacity, and stands on its head for those few and far between souls who devote 100%."
             }
         ]
     },
