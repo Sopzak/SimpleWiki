@@ -6,7 +6,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>
+        <p tabIndex="1" 
+          aria-label={"title site Simple Wiki"}>
           Simple Wiki
         </p>
       </header>
@@ -14,7 +15,7 @@ function App() {
         <HomePage/>
       </body>
       <footer className="App-footer">
-        <p>
+        <p >
           Create by Jesiel Sopzak
         </p>
       </footer>

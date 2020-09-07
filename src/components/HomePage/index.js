@@ -16,6 +16,7 @@ function HomePage() {
     return (Math.random() * (100));
   }
 
+
   function createPost(){
       var listPosts = Posts;
 
@@ -81,18 +82,19 @@ function HomePage() {
   function showPost(post, repliedId){
       return (
         <div key={post.id}>
-            <div style={{margin:5}} className="post">
+            <div  className="post">
                 <p>&quot;{post.description}&quot;</p>
                 <div className="post-author" >
                     Author: {post.name} email: {post.email}
                 </div>
                 {(!repliedId) && (
-                    <span 
-                        onClick={() => {
-                            replyPost(post)
-                        }}>
-                        &larr;Reply
-                    </span>
+                        <span 
+                            onClick={() => {
+                                replyPost(post)
+                            }}>
+                            &larr;Reply
+                        </span>
+                    
                 )}
                 &nbsp;
                 <span 
@@ -123,24 +125,34 @@ function HomePage() {
         <div className="container">
             <div className="modal" style={{display: showModal}}>
               <div className="modal-content">
-                <span 
-                  className="close" 
-                  onClick={() => {
-                      setStateModal("none");
-                      setReplier(null);
-                  }}>
+                <button 
+                    className="close" 
+                    tabIndex={5}
+                    onClick={() => {
+                        setStateModal("none");
+                        setReplier(null);
+                        }}
+                    onChange={() => {
+                        setStateModal("none");
+                        setReplier(null);
+                        }}
+                  >
                     &times;
-                </span>
+                </button>
                 <input
-                    aria-label={"name"}
+                    aria-label={"author"}
                     aria-required="true"
+                    tabIndex={1}
+                    name="author"
+                    autoFocus={true}
                     onChange={e => setFormData({ ...formData, 'name': e.target.value})}
                     placeholder="Name"
                     className="textinput" 
                     value={formData.name}
                 />
                 <input
-                    aria-label={"e-mail"}
+                    aria-label={"author e-mail"}
+                    tabIndex={2}
                     aria-required="true"
                     className="textinput" 
                     onChange={e => setFormData({ ...formData, 'email': e.target.value})}
@@ -148,8 +160,9 @@ function HomePage() {
                     value={formData.email}
                 />
                 <textarea 
-                    aria-label={"Post description"}
+                    aria-label={"post description"}
                     aria-required="true"
+                    tabIndex={3}
                     className="textinput" 
                     onChange={e => setFormData({ ...formData, 'description': e.target.value})}
                     placeholder="Post description"
@@ -157,31 +170,32 @@ function HomePage() {
                 />
                 <button 
                     className="btn"
-                    aria-label={"Create Post"}
+                    tabIndex={4}
+                    aria-label={"Button Create Post"}
                     onClick={createPost}>
                         Create Post
                 </button>
               </div>
             </div>      
-            <input type="text" placeholder="Enter keyword to be searched" 
-                style={{      
-                    border:'solid',
-                    borderRadius:'10px',
-                    position:'relative',
-                    height:'3vh',
-                    left: '5vh',
+            <input type="text" 
+                placeholder="Enter keyword to be searched Inspiring Quotes" 
+                aria-label={"Search bar"}
+                style={{     
                     float: 'left',
                     width:'50%',}} 
                     onChange={(e)=> findPost(e)} 
                     onBlur={(e)=> findPost(e)} />
             <button 
-                aria-label={"Add Post"}
-                onClick={() => {setStateModal("block");}}>
-                    Add Post
+                aria-label={"Add new Inspiring Quotes"}
+                onClick={() => {setStateModal("block"); }}>
+                    Add new Inspiring Quotes
             </button>
             <div className="post-container"
                 style={{marginBottom: 30, margin: 5, maxHeight:'500px', minHeight: '300px', overflowY: 'scroll' }}>
-                <label style={ { width:'100%'}}>Inspiring Quotes
+                <label                 
+                    aria-label={"Inspiring Quotes"}
+                    tabIndex="4"
+                 style={ { width:'100%'}}>Inspiring Quotes
                     <React.Fragment>
                         {
                             Posts.filter((data)=>{

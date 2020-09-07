@@ -4,6 +4,7 @@
     align-items: center;
     flex-wrap: wrap;
     margin: 10px auto;
+    max-width: 90vh;
   }
   
   .post-container {
@@ -55,7 +56,6 @@
 
   .btn{
     float: left;
-    margin: 5px;
   }
 
   /* The Modal (background) */
